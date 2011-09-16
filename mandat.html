@@ -2,10 +2,10 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Sainte-Lagües metode</title>
+    <title>Sainte-Lag&uml;es metode</title>
     <link href="mandat.css" rel="StyleSheet" type="text/css">
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-git.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
     <script type="text/javascript">
         var tabellrad = '<tr class="stemmetallRad">';
         tabellrad += '<td><input type="text" class="partinavnInput"></td>';
@@ -13,7 +13,7 @@
         tabellrad += '</tr>';
         $(function() {
             $("#LeggTilPartiButton").click(function () {
-                $("#Stemmetabell").append(tabellrad);
+                $("#Stemmetabell > tbody").append(tabellrad);
             });
 
             $("#GenMandat").click(function () {
@@ -27,30 +27,38 @@
 
             });
         });
-        function generer(stemmer) {
-            $("#MandatlisteDiv").empty();
-            var antallMandater = parseInt($("#AntRepInput").val());
-
+		
+		function finnDivisorer(antallMandater) {
             var divisorer = new Array();
             divisorer.push(1.4);
             for (var i = 2; i < (antallMandater + 1); i++) {
                 divisorer.push(i * 2 - 1);
             }
-
+			return divisorer;
+		}
+		
+		function finnDelingstall(stemmer, divisorer) {
             var delingstall = new Array();
-            var mandater = new Array();
-
             for (parti in stemmer) {
                 var kvotienter = new Array();
                 for (i = 0; i < divisorer.length; i++) {
                     var dTall = stemmer[parti] / divisorer[i];
-                    //$("#MandatlisteDiv").append(dTall + " ");
-
                     kvotienter.push(stemmer[parti] / divisorer[i]);
                 }
                 delingstall[parti] = kvotienter;
-                //$("#MandatlisteDiv").append("<p>");
             }
+			return delingstall;			
+		}
+		
+        function generer(stemmer) {
+            $("#MandatlisteDiv").empty();
+            var antallMandater = parseInt($("#AntRepInput").val());
+
+			var divisorer = finnDivisorer(antallMandater);
+			var delingstall = finnDelingstall(stemmer, divisorer);
+			
+            var mandater = new Array();
+
             var delingstallMandat = new Array();
             var antallMandeterParti = new Array();
             for (i = 0; i < antallMandater; i++) {
@@ -70,39 +78,47 @@
             var teller = 0;
             var mandatlisteParti = new Array();
             for (i=0; i<mandater.length; i++) {
-                //$("#MandatlisteDiv").append("mandat nr " + (teller+1) + " : " + mandater[teller] + "<br>");
                 if (mandatlisteParti[mandater[teller]]==undefined) {
                     mandatlisteParti[mandater[teller]] = new Array();
                 }
                 mandatlisteParti[mandater[teller]].push(teller+1);
                 teller++;
             }
-            var tabellString = "<table id=\"DelingstallTabell\"><thead><tr><th>Mandat nr</th>";
+            var tabellString = "<table id=\"DelingstallTabell\"><thead><tr><th class=\"mandat\">Antall Mandater</th>";
             for (parti in delingstall) {
                 tabellString+="<th>"+parti+"</th>";
             }
             tabellString+="</tr></thead><tbody>";
             for (i = 0; i<antallMandater; i++) {
                 tabellString+="<tr>";
-				tabellString+="<td>"+(i+1)+"</td>";
+				tabellString+="<td class=\"mandat\">"+(i+1)+"</td>";
                 for (parti in delingstall) {
                     var kvot = delingstall[parti][i].toFixed(2);
+					var cellClass="ikkeMandat";
                     if (mandatlisteParti[parti]!= undefined && mandatlisteParti[parti][i]!= undefined) {
-                        kvot+="("+mandatlisteParti[parti][i]+")";
-                        tabellString+="<td class=\"mandat\">"+kvot+"</td>";
+                        kvot+="("+mandatlisteParti[parti][i]+")";					
+                        cellClass="mandat";
+						if (mandatlisteParti[parti][i]==antallMandater) {
+							cellClass+=" sisteMandat";
+						}
                     }
-                    else {
-                        tabellString+="<td>"+kvot+"</td>";
-                    }
-
+					tabellString+="<td class=\""+cellClass+"\">"+kvot+"</td>";
                 }
                 tabellString+="</tr>";
             }
             tabellString+="</tbody></table>";
             $("#MandatlisteDiv").append(tabellString);
-
+			merkDelingstallUtenM();
         }
-
+		function merkDelingstallUtenM() {
+			var max;
+			$("#DelingstallTabell > tbody > tr > td").filter(".ikkeMandat").each(function(index) {
+				if(max==undefined || parseFloat($(this).text())>parseFloat(max.text())) {
+					max=$(this);
+				}
+			});
+			max.addClass("maxUtenMandat");
+		}
 
     </script>
 </head>

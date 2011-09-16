@@ -13,3 +13,11 @@ table#DelingstallTabell > td {
 td.mandat {
     font-weight: bold;
 }
+
+td.maxUtenMandat {
+	color:blue;
+}
+
+td.sisteMandat {
+	color:red;
+}
