@@ -1,0 +1,15 @@
+.stemmetallInput {
+    text-align: right;
+}
+table#DelingstallTabell > td{
+    margin-right: 1em;
+}
+table#DelingstallTabell, table#DelingstallTabell > tr > th, table#DelingstallTabell > tr > td {
+    border: 1px solid black;
+}
+table#DelingstallTabell > td {
+    padding:10px;
+}
+td.mandat {
+    font-weight: bold;
+}

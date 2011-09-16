@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Sainte-Lagües metode</title>
+    <link href="mandat.css" rel="StyleSheet" type="text/css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-git.js"></script>
+    <script type="text/javascript">
+        var tabellrad = '<tr class="stemmetallRad">';
+        tabellrad += '<td><input type="text" class="partinavnInput"></td>';
+        tabellrad += '<td><input type="text" class="stemmetallInput"></td>';
+        tabellrad += '</tr>';
+        $(function() {
+            $("#LeggTilPartiButton").click(function () {
+                $("#Stemmetabell").append(tabellrad);
+            });
+
+            $("#GenMandat").click(function () {
+                var stemmer = new Array();
+                $("#Stemmetabell").find(".stemmetallRad").each(function(index) {
+                    var partinavn = $(this).find(".partinavnInput").val();
+                    stemmer[partinavn] = $(this).find(".stemmetallInput").val();
+                });
+
+                generer(stemmer);
+
+            });
+        });
+        function generer(stemmer) {
+            $("#MandatlisteDiv").empty();
+            var antallMandater = parseInt($("#AntRepInput").val());
+
+            var divisorer = new Array();
+            divisorer.push(1.4);
+            for (var i = 2; i < (antallMandater + 1); i++) {
+                divisorer.push(i * 2 - 1);
+            }
+
+            var delingstall = new Array();
+            var mandater = new Array();
+
+            for (parti in stemmer) {
+                var kvotienter = new Array();
+                for (i = 0; i < divisorer.length; i++) {
+                    var dTall = stemmer[parti] / divisorer[i];
+                    //$("#MandatlisteDiv").append(dTall + " ");
+
+                    kvotienter.push(stemmer[parti] / divisorer[i]);
+                }
+                delingstall[parti] = kvotienter;
+                //$("#MandatlisteDiv").append("<p>");
+            }
+            var delingstallMandat = new Array();
+            var antallMandeterParti = new Array();
+            for (i = 0; i < antallMandater; i++) {
+                delingstallMandat[i] = 0;
+                var partiMandat = "";
+                for (parti in delingstall) {
+                    var mandaterParti = antallMandeterParti[parti] === undefined ? 0 : antallMandeterParti[parti];
+                    if (delingstall[parti][mandaterParti] > delingstallMandat[i]) {
+                        delingstallMandat[i] = delingstall[parti][mandaterParti];
+                        partiMandat = parti;
+                    }
+                }
+                antallMandeterParti[partiMandat] = antallMandeterParti[partiMandat] === undefined ? 1 : antallMandeterParti[partiMandat]+1;
+                mandater[i] = partiMandat;
+            }
+
+            var teller = 0;
+            var mandatlisteParti = new Array();
+            for (i=0; i<mandater.length; i++) {
+                //$("#MandatlisteDiv").append("mandat nr " + (teller+1) + " : " + mandater[teller] + "<br>");
+                if (mandatlisteParti[mandater[teller]]==undefined) {
+                    mandatlisteParti[mandater[teller]] = new Array();
+                }
+                mandatlisteParti[mandater[teller]].push(teller+1);
+                teller++;
+            }
+            var tabellString = "<table id=\"DelingstallTabell\"><thead><tr><th>Mandat nr</th>";
+            for (parti in delingstall) {
+                tabellString+="<th>"+parti+"</th>";
+            }
+            tabellString+="</tr></thead><tbody>";
+            for (i = 0; i<antallMandater; i++) {
+                tabellString+="<tr>";
+				tabellString+="<td>"+(i+1)+"</td>";
+                for (parti in delingstall) {
+                    var kvot = delingstall[parti][i].toFixed(2);
+                    if (mandatlisteParti[parti]!= undefined && mandatlisteParti[parti][i]!= undefined) {
+                        kvot+="("+mandatlisteParti[parti][i]+")";
+                        tabellString+="<td class=\"mandat\">"+kvot+"</td>";
+                    }
+                    else {
+                        tabellString+="<td>"+kvot+"</td>";
+                    }
+
+                }
+                tabellString+="</tr>";
+            }
+            tabellString+="</tbody></table>";
+            $("#MandatlisteDiv").append(tabellString);
+
+        }
+
+
+    </script>
+</head>
+<body>
+<p>
+    <label for="AntRepInput">Antall representanter</label>
+    <input id="AntRepInput" type="text">
+</p>
+<table id="Stemmetabell">
+    <thead>
+    <tr>
+        <th>Parti</th>
+        <th>Stemmer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="stemmetallRad">
+        <td><input type="text" class="partinavnInput"></td>
+        <td><input type="text" class="stemmetallInput"></td>
+    </tr>
+    </tbody>
+</table>
+<button id="LeggTilPartiButton">Legg til parti</button>
+<button id="GenMandat">Generer mandatliste</button>
+<div id="MandatlisteDiv"></div>
+</body>
+</html>
