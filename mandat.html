@@ -111,28 +111,26 @@
             const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api/2013/st/s%C3%B8r-tr%C3%B8ndelag";
 
             fetch(apiUrl).then(r => r.json())
-                .then(data=>oppdaterData(data))
+                .then(data => oppdaterData(data))
 
         }
 
         function oppdaterData(data) {
-            //console.log(data);
-            //console.log(data.partier);
-            const mandater = (data.mandater.antall)-1;
+            const mandater = (data.mandater.antall) - 1;
             $("#AntallRep").text(mandater);
 
-            data.partier.sort(function(a,b) {
+            data.partier.sort(function (a, b) {
                 return b.stemmer.resultat.antall.total - a.stemmer.resultat.antall.total;
             });
-            data.partier.forEach(function(parti) {
-                if (parti.id.partikategori!==0) {
-                const stemmer = parti.stemmer.resultat.antall.total;
-                const partinavn = parti.id.navn;
-                const partirad = '<tr class="stemmetallRad">'
-                    + '<td class="partinavn">'+partinavn+'</td>'
-                    + '<td class="stemmetall">'+stemmer+'</td>'
-                    + '</tr>';
-                $("#Stemmetabell > tbody").append(partirad);
+            data.partier.forEach(function (parti) {
+                if (parti.id.partikategori == 1) {
+                    const stemmer = parti.stemmer.resultat.antall.total;
+                    const partinavn = parti.id.navn;
+                    const partirad = '<tr class="stemmetallRad">'
+                        + '<td class="partinavn">' + partinavn + '</td>'
+                        + '<td class="stemmetall">' + stemmer + '</td>'
+                        + '</tr>';
+                    $("#Stemmetabell > tbody").append(partirad);
                 }
             });
             genTabell();
@@ -141,12 +139,9 @@
         function genTabell() {
             let stemmer = [];
             $("#Stemmetabell").find(".stemmetallRad").each(function (index) {
-                console.log($(this));
                 const partinavn = $(this).find(".partinavn").text();
                 stemmer[partinavn] = $(this).find(".stemmetall").text();
-                console.log(partinavn +" "+stemmer);
             });
-            console.log(stemmer);
 
             generer(stemmer);
         }
