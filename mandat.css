@@ -1,4 +1,5 @@
-.stemmetall {
+
+td.stemmetall {
     text-align: right;
 }
 table#DelingstallTabell > td{
@@ -6,7 +7,7 @@ table#DelingstallTabell > td{
     margin-right: 1em;
     text-align: right;
 }
-table#DelingstallTabell, table#DelingstallTabell > tr > th, table#DelingstallTabell > tr > td {
+table#DelingstallTabell, table#Stemmetabell, table#DelingstallTabell > tr > th, table#DelingstallTabell > tr > td {
     border: 1px solid black;
 }
 td.mandat{
@@ -26,4 +27,7 @@ td.sisteMandat {
 }
 th {
     word-wrap: break-word
+}
+#loading {
+    position: absolute; width: 100%; height: 100%; background: url('spinner.gif') no-repeat center center;
 }
