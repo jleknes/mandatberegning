@@ -95,10 +95,10 @@
             }
             tabellString += "</tbody></table>";
             $("#MandatlisteDiv").append(tabellString);
-            merkDelingstallUtenM();
+            merkDelingstallUtenMandat();
         }
 
-        function merkDelingstallUtenM() {
+        function merkDelingstallUtenMandat() {
             let max;
             $("#DelingstallTabell > tbody > tr > td").filter(".ikkeMandat").each(function (index) {
                 if (max === undefined || parseFloat($(this).text()) > parseFloat(max.text())) {
@@ -153,6 +153,7 @@
 </head>
 <body>
 <div id="loading"></div>
+<h1>Mandatberegning</h1>
 <dl>
     <dt>Antall mandater</dt>
     <dd id="AntallRep"></dd>
