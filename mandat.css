@@ -1,17 +1,20 @@
-.stemmetallInput {
+.stemmetall {
     text-align: right;
 }
 table#DelingstallTabell > td{
+    padding:10px;
     margin-right: 1em;
+    text-align: right;
 }
 table#DelingstallTabell, table#DelingstallTabell > tr > th, table#DelingstallTabell > tr > td {
     border: 1px solid black;
 }
-table#DelingstallTabell > td {
-    padding:10px;
-}
-td.mandat {
+td.mandat{
     font-weight: bold;
+
+}
+td.mandat, td.ikkeMandat{
+    text-align: right;
 }
 
 td.maxUtenMandat {
@@ -20,4 +23,7 @@ td.maxUtenMandat {
 
 td.sisteMandat {
 	color:red;
+}
+th {
+    word-wrap: break-word
 }
