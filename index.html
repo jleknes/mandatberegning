@@ -1,13 +1,29 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mandatberegneren</title>
-    <link href="mandat.css" rel="StyleSheet" type="text/css">
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link href="mandat.css" rel="StyleSheet" type="text/css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         $(function () {
+            $('#main').hide();
             $("Oppdater").click(function () {
                 console.log("button clicked");
                 hentFraAPI();
@@ -71,7 +87,7 @@
                 mandatlisteParti[mandater[teller]].push(teller + 1);
                 teller++;
             }
-            let tabellString = "<table id=\"DelingstallTabell\"><thead><tr><th class=\"mandat\">Mandat</th>";
+            let tabellString = "<table id=\"DelingstallTabell\" class=\"table table-striped table-bordered\"><thead  class=\"thead-inverse\"><tr><th class=\"mandat\">Mandat</th>";
             for (parti in delingstall) {
                 tabellString += "<th>" + parti + "</th>";
             }
@@ -94,7 +110,7 @@
                 tabellString += "</tr>";
             }
             tabellString += "</tbody></table>";
-            $("#MandatlisteDiv").append(tabellString);
+            $("#Mandatliste").append(tabellString);
             merkDelingstallUtenMandat();
         }
 
@@ -137,6 +153,7 @@
             });
             genTabell();
             $('#loading').hide();
+            $('#main').show();
         }
 
         function genTabell() {
@@ -153,22 +170,26 @@
 </head>
 <body>
 <div id="loading"></div>
-<h1>Mandatberegning</h1>
-<dl>
-    <dt>Antall mandater</dt>
-    <dd id="AntallRep"></dd>
-</dl>
-<table id="Stemmetabell">
-    <thead>
-    <tr>
-        <th>Parti</th>
-        <th>Stemmer</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-<div id="MandatlisteDiv"></div>
-<button id="Oppdater">Oppdater stemmetall</button>
+<div id="main">
+    <h1>Mandatberegning</h1>
+    <dl>
+        <dt>Antall mandater</dt>
+        <dd id="AntallRep"></dd>
+    </dl>
+    <div>
+        <table id="Stemmetabell" class="table table-striped table-bordered">
+            <thead class="thead-inverse">
+            <tr>
+                <th>Parti</th>
+                <th class="stemmetall">Stemmer</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="Mandatliste" class="table-responsive"></div>
+    <button id="Oppdater">Oppdater stemmetall</button>
+</div>
 </body>
 </html>
