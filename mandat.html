@@ -7,126 +7,157 @@
 
     <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
     <script type="text/javascript">
-        var tabellrad = '<tr class="stemmetallRad">';
-        tabellrad += '<td><input type="text" class="partinavnInput"></td>';
-        tabellrad += '<td><input type="text" class="stemmetallInput"></td>';
-        tabellrad += '</tr>';
-        $(function() {
-            $("#LeggTilPartiButton").click(function () {
-                $("#Stemmetabell > tbody").append(tabellrad);
+        $(function () {
+            $("Oppdater").click(function () {
+                hentFraAPI();
             });
-
-            $("#GenMandat").click(function () {
-                var stemmer = new Array();
-                $("#Stemmetabell").find(".stemmetallRad").each(function(index) {
-                    var partinavn = $(this).find(".partinavnInput").val();
-                    stemmer[partinavn] = $(this).find(".stemmetallInput").val();
-                });
-
-                generer(stemmer);
-
-            });
+            hentFraAPI();
         });
-		
-		function finnDivisorer(antallMandater) {
-            var divisorer = new Array();
+
+        function finnDivisorer(antallMandater) {
+            let divisorer = [];
             divisorer.push(1.4);
-            for (var i = 2; i < (antallMandater + 1); i++) {
+            for (let i = 2; i < (antallMandater + 1); i++) {
                 divisorer.push(i * 2 - 1);
             }
-			return divisorer;
-		}
-		
-		function finnDelingstall(stemmer, divisorer) {
-            var delingstall = new Array();
+            return divisorer;
+        }
+
+        function finnDelingstall(stemmer, divisorer) {
+            let delingstall = [];
             for (parti in stemmer) {
-                var kvotienter = new Array();
-                for (i = 0; i < divisorer.length; i++) {
-                    var dTall = stemmer[parti] / divisorer[i];
+                let kvotienter = [];
+                for (let i = 0; i < divisorer.length; i++) {
+                    const dTall = stemmer[parti] / divisorer[i];
                     kvotienter.push(stemmer[parti] / divisorer[i]);
                 }
                 delingstall[parti] = kvotienter;
             }
-			return delingstall;			
-		}
-		
+            return delingstall;
+        }
+
         function generer(stemmer) {
             $("#MandatlisteDiv").empty();
-            var antallMandater = parseInt($("#AntRepInput").val());
+            const antallMandater = parseInt($("#AntallRep").text());
 
-			var divisorer = finnDivisorer(antallMandater);
-			var delingstall = finnDelingstall(stemmer, divisorer);
-			
-            var mandater = new Array();
+            const divisorer = finnDivisorer(antallMandater);
+            const delingstall = finnDelingstall(stemmer, divisorer);
 
-            var delingstallMandat = new Array();
-            var antallMandeterParti = new Array();
+            let mandater = [];
+
+            let delingstallMandat = [];
+            let antallMandeterParti = [];
             for (i = 0; i < antallMandater; i++) {
                 delingstallMandat[i] = 0;
-                var partiMandat = "";
+                let partiMandat = "";
                 for (parti in delingstall) {
-                    var mandaterParti = antallMandeterParti[parti] === undefined ? 0 : antallMandeterParti[parti];
+                    const mandaterParti = antallMandeterParti[parti] === undefined ? 0 : antallMandeterParti[parti];
                     if (delingstall[parti][mandaterParti] > delingstallMandat[i]) {
                         delingstallMandat[i] = delingstall[parti][mandaterParti];
                         partiMandat = parti;
                     }
                 }
-                antallMandeterParti[partiMandat] = antallMandeterParti[partiMandat] === undefined ? 1 : antallMandeterParti[partiMandat]+1;
+                antallMandeterParti[partiMandat] = antallMandeterParti[partiMandat] === undefined ? 1 : antallMandeterParti[partiMandat] + 1;
                 mandater[i] = partiMandat;
             }
 
-            var teller = 0;
-            var mandatlisteParti = new Array();
-            for (i=0; i<mandater.length; i++) {
-                if (mandatlisteParti[mandater[teller]]==undefined) {
-                    mandatlisteParti[mandater[teller]] = new Array();
+            let teller = 0;
+            let mandatlisteParti = [];
+            for (i = 0; i < mandater.length; i++) {
+                if (mandatlisteParti[mandater[teller]] === undefined) {
+                    mandatlisteParti[mandater[teller]] = [];
                 }
-                mandatlisteParti[mandater[teller]].push(teller+1);
+                mandatlisteParti[mandater[teller]].push(teller + 1);
                 teller++;
             }
-            var tabellString = "<table id=\"DelingstallTabell\"><thead><tr><th class=\"mandat\">Antall Mandater</th>";
+            let tabellString = "<table id=\"DelingstallTabell\"><thead><tr><th class=\"mandat\">Antall Mandater</th>";
             for (parti in delingstall) {
-                tabellString+="<th>"+parti+"</th>";
+                tabellString += "<th>" + parti + "</th>";
             }
-            tabellString+="</tr></thead><tbody>";
-            for (i = 0; i<antallMandater; i++) {
-                tabellString+="<tr>";
-				tabellString+="<td class=\"mandat\">"+(i+1)+"</td>";
+            tabellString += "</tr></thead><tbody>";
+            for (i = 0; i < antallMandater; i++) {
+                tabellString += "<tr>";
+                tabellString += "<td class=\"mandat\">" + (i + 1) + "</td>";
                 for (parti in delingstall) {
-                    var kvot = delingstall[parti][i].toFixed(2);
-					var cellClass="ikkeMandat";
-                    if (mandatlisteParti[parti]!= undefined && mandatlisteParti[parti][i]!= undefined) {
-                        kvot+="("+mandatlisteParti[parti][i]+")";					
-                        cellClass="mandat";
-						if (mandatlisteParti[parti][i]==antallMandater) {
-							cellClass+=" sisteMandat";
-						}
+                    let kvot = delingstall[parti][i].toFixed(2);
+                    let cellClass = "ikkeMandat";
+                    if (mandatlisteParti[parti] !== undefined && mandatlisteParti[parti][i] !== undefined) {
+                        kvot += "(" + mandatlisteParti[parti][i] + ")";
+                        cellClass = "mandat";
+                        if (mandatlisteParti[parti][i] === antallMandater) {
+                            cellClass += " sisteMandat";
+                        }
                     }
-					tabellString+="<td class=\""+cellClass+"\">"+kvot+"</td>";
+                    tabellString += "<td class=\"" + cellClass + "\">" + kvot + "</td>";
                 }
-                tabellString+="</tr>";
+                tabellString += "</tr>";
             }
-            tabellString+="</tbody></table>";
+            tabellString += "</tbody></table>";
             $("#MandatlisteDiv").append(tabellString);
-			merkDelingstallUtenM();
+            merkDelingstallUtenM();
         }
-		function merkDelingstallUtenM() {
-			var max;
-			$("#DelingstallTabell > tbody > tr > td").filter(".ikkeMandat").each(function(index) {
-				if(max==undefined || parseFloat($(this).text())>parseFloat(max.text())) {
-					max=$(this);
-				}
-			});
-			max.addClass("maxUtenMandat");
-		}
+
+        function merkDelingstallUtenM() {
+            let max;
+            $("#DelingstallTabell > tbody > tr > td").filter(".ikkeMandat").each(function (index) {
+                if (max === undefined || parseFloat($(this).text()) > parseFloat(max.text())) {
+                    max = $(this);
+                }
+            });
+            max.addClass("maxUtenMandat");
+        }
+
+        function hentFraAPI() {
+            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api/2013/st/s%C3%B8r-tr%C3%B8ndelag";
+
+            fetch(apiUrl).then(r => r.json())
+                .then(data=>oppdaterData(data))
+
+        }
+
+        function oppdaterData(data) {
+            //console.log(data);
+            //console.log(data.partier);
+            const mandater = (data.mandater.antall)-1;
+            $("#AntallRep").text(mandater);
+
+            data.partier.sort(function(a,b) {
+                return b.stemmer.resultat.antall.total - a.stemmer.resultat.antall.total;
+            });
+            data.partier.forEach(function(parti) {
+                if (parti.id.partikategori!==0) {
+                const stemmer = parti.stemmer.resultat.antall.total;
+                const partinavn = parti.id.navn;
+                const partirad = '<tr class="stemmetallRad">'
+                    + '<td class="partinavn">'+partinavn+'</td>'
+                    + '<td class="stemmetall">'+stemmer+'</td>'
+                    + '</tr>';
+                $("#Stemmetabell > tbody").append(partirad);
+                }
+            });
+            genTabell();
+        }
+
+        function genTabell() {
+            let stemmer = [];
+            $("#Stemmetabell").find(".stemmetallRad").each(function (index) {
+                console.log($(this));
+                const partinavn = $(this).find(".partinavn").text();
+                stemmer[partinavn] = $(this).find(".stemmetall").text();
+                console.log(partinavn +" "+stemmer);
+            });
+            console.log(stemmer);
+
+            generer(stemmer);
+        }
 
     </script>
 </head>
 <body>
-<p>
-    <label for="AntRepInput">Antall representanter</label>
-    <input id="AntRepInput" type="text">
-</p>
+<dl>
+    <dt>Antall representanter</dt>
+    <dd id="AntallRep"></dd>
+</dl>
 <table id="Stemmetabell">
     <thead>
     <tr>
@@ -135,14 +166,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="stemmetallRad">
-        <td><input type="text" class="partinavnInput"></td>
-        <td><input type="text" class="stemmetallInput"></td>
-    </tr>
     </tbody>
 </table>
-<button id="LeggTilPartiButton">Legg til parti</button>
-<button id="GenMandat">Generer mandatliste</button>
+<button id="Oppdater">Oppdater stemmetall</button>
 <div id="MandatlisteDiv"></div>
 </body>
 </html>
