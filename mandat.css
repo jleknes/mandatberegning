@@ -5,8 +5,12 @@ div#main {
 table#Stemmetabell, table#DelingstallTabell {
     width: auto !important;
 }
+td, th {
+    font-family: 'Open Sans', sans-serif;;
+    font-size: 1.2em;
+}
 
-td.stemmetall, th.stemmetall {
+td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat {
     text-align: right;
 }
 
@@ -22,10 +26,6 @@ table#DelingstallTabell > td, table#DelingstallTabell > th {
 
 td.mandat {
     font-weight: bold;
-}
-
-td.mandat, td.ikkeMandat {
-    text-align: right;
 }
 
 td.maxUtenMandat {
