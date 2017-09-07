@@ -101,7 +101,7 @@
                     let kvot = delingstall[parti][i].toFixed(2);
                     let cellClass = "ikkeMandat";
                     if (mandatlisteParti[parti] !== undefined && mandatlisteParti[parti][i] !== undefined) {
-                        kvot += "(" + mandatlisteParti[parti][i] + ")";
+                        kvot += " (" + mandatlisteParti[parti][i] + ")";
                         cellClass = "mandat";
                         if (mandatlisteParti[parti][i] === antallMandater) {
                             cellClass += " sisteMandat";

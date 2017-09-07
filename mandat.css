@@ -1,3 +1,7 @@
+body {
+    padding: 1em;
+}
+
 table#Stemmetabell, table#DelingstallTabell {
     width: auto !important;
 }
