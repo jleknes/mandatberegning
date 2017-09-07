@@ -12,17 +12,12 @@ table#DelingstallTabell > td {
     text-align: right;
 }
 
-table#DelingstallTabell, table#Stemmetabell, table#DelingstallTabell > tr > th, table#DelingstallTabell > tr > td {
-
-}
-
 table#DelingstallTabell > td, table#DelingstallTabell > th {
     text-align: right;
 }
 
 td.mandat {
     font-weight: bold;
-
 }
 
 td.mandat, td.ikkeMandat {
