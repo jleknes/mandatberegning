@@ -98,11 +98,11 @@
                 tabellString += "<tr>";
                 tabellString += "<td class=\"mandat\">" + (i + 1) + "</td>";
                 for (parti in delingstall) {
-                    let kvot = formaterDelingstall(delingstall[parti][i]);
-                    let cellClass = "ikkeMandat";
+                    let kvot = delingstall[parti][i];
+                    let cellClass = "ikkeMandat delingstall";
                     if (mandatlisteParti[parti] !== undefined && mandatlisteParti[parti][i] !== undefined) {
                         kvot += " (" + mandatlisteParti[parti][i] + ")";
-                        cellClass = "mandat";
+                        cellClass = "mandat delingstall";
                         if (mandatlisteParti[parti][i] === antallMandater) {
                             cellClass += " sisteMandat";
                         }
@@ -155,6 +155,7 @@
                 }
             });
             genTabell();
+            formaterDelingstall();
             formaterStemmetall();
             $('#loading').hide();
             $('#main').show();
@@ -177,8 +178,17 @@
             });
         }
 
-        function formaterDelingstall(number) {
-            return (new Intl.NumberFormat('no-NB', {maximumFractionDigits:2, minimumFractionDigits:2}).format(number));
+        function formaterDelingstall() {
+            $("td.delingstall").each(function (index) {
+                const text = $(this).text();
+                const number = text.split(' ')[0];
+                const mandatNr = text.split(' ')[1];
+                let formatted = new Intl.NumberFormat('no-NB', {maximumFractionDigits:2, minimumFractionDigits:2}).format(number);
+                if (mandatNr!== undefined) {
+                    formatted+=" "+ mandatNr;
+                }
+                $(this).text(formatted);
+            });
         }
 
     </script>
