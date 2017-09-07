@@ -89,16 +89,16 @@
                 mandatlisteParti[mandater[teller]].push(teller + 1);
                 teller++;
             }
-            let tabellString = "<table id=\"DelingstallTabell\" class=\"table table-striped table-bordered\"><thead  class=\"thead-inverse\"><tr><th class=\"mandat\">Mandat</th>";
+            let tabellString = "<table id=\"DelingstallTabell\" class=\"table table-striped table-bordered\"><thead  class=\"thead-inverse\"><tr><th class=\"DelingstallHeader\">Mandat</th>";
             for (parti in delingstall) {
-                tabellString += "<th>" + parti + "</th>";
+                tabellString += "<th class='DelingstallHeader'>" + parti + "</th>";
             }
             tabellString += "</tr></thead><tbody>";
             for (i = 0; i < antallMandater; i++) {
                 tabellString += "<tr>";
                 tabellString += "<td class=\"mandat\">" + (i + 1) + "</td>";
                 for (parti in delingstall) {
-                    let kvot = delingstall[parti][i].toFixed(2);
+                    let kvot = formaterDelingstall(delingstall[parti][i]);
                     let cellClass = "ikkeMandat";
                     if (mandatlisteParti[parti] !== undefined && mandatlisteParti[parti][i] !== undefined) {
                         kvot += " (" + mandatlisteParti[parti][i] + ")";
@@ -155,6 +155,7 @@
                 }
             });
             genTabell();
+            formaterStemmetall();
             $('#loading').hide();
             $('#main').show();
         }
@@ -167,6 +168,17 @@
             });
 
             generer(stemmer);
+        }
+        function formaterStemmetall() {
+            $("td.stemmetall").each(function (index) {
+                const val = $(this).text();
+                const formatted = new Intl.NumberFormat('no-NB').format(val);
+                $(this).text(formatted);
+            });
+        }
+
+        function formaterDelingstall(number) {
+            return (new Intl.NumberFormat('no-NB', {maximumFractionDigits:2, minimumFractionDigits:2}).format(number));
         }
 
     </script>
