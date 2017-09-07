@@ -24,8 +24,10 @@
     <script type="text/javascript">
         $(function () {
             $('#main').hide();
-            $("Oppdater").click(function () {
-                console.log("button clicked");
+            $("#Oppdater").click(function () {
+                hentFraAPI();
+            });
+            $("#FylkesVelger").change(function () {
                 hentFraAPI();
             });
             hentFraAPI();
@@ -54,7 +56,7 @@
         }
 
         function generer(stemmer) {
-            $("#MandatlisteDiv").empty();
+            $("#Mandatliste").empty();
             const antallMandater = parseInt($("#AntallRep").text());
 
             const divisorer = finnDivisorer(antallMandater);
@@ -126,7 +128,7 @@
 
         function hentFraAPI() {
             $('#loading').show();
-            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api/2013/st/s%C3%B8r-tr%C3%B8ndelag";
+            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api"+$("#FylkesVelger option:selected").val();
 
             fetch(apiUrl).then(r => r.json())
                 .then(data => oppdaterData(data))
@@ -136,6 +138,7 @@
         function oppdaterData(data) {
             const mandater = (data.mandater.antall) - 1;
             $("#AntallRep").text(mandater);
+            $("#StemmetabellBody").empty();
 
             data.partier.sort(function (a, b) {
                 return b.stemmer.resultat.antall.total - a.stemmer.resultat.antall.total;
@@ -172,6 +175,30 @@
 <div id="loading"></div>
 <div id="main">
     <h1>Mandatberegning</h1>
+    <label for="FylkesVelger">Fylke</label>
+    <select id="FylkesVelger">
+        <option value="/2013/st/01">Østfold</option>
+        <option value="/2013/st/02">Akershus</option>
+        <option value="/2013/st/03">Oslo</option>
+
+        <option value="/2013/st/04">Hedmark</option>
+        <option value="/2013/st/05">Oppland</option>
+        <option value="/2013/st/06">Buskerud</option>
+        <option value="/2013/st/07">Vestfold</option>
+        <option value="/2013/st/08">Telemark</option>
+        <option value="/2013/st/09">Aust-Agder</option>
+        <option value="/2013/st/10">Vest-Agder</option>
+        <option value="/2013/st/11">Rogaland</option>
+        <option value="/2013/st/12">Hordaland</option>
+        <option value="/2013/st/14">Sogn og Fjordane</option>
+        <option value="/2013/st/15">Møre og Romsdal</option>
+        <option value="/2013/st/16" selected>Sør-Trøndelag</option>
+        <option value="/2013/st/17">Nord-Trøndelag</option>
+        <option value="/2013/st/18">Nordland</option>
+        <option value="/2013/st/19">Troms Romsa</option>
+        <option value="/2013/st/20">Finnmark Finnmárku</option>
+
+    </select>
     <dl>
         <dt>Antall mandater</dt>
         <dd id="AntallRep"></dd>
@@ -184,7 +211,7 @@
                 <th class="stemmetall">Stemmer</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="StemmetabellBody">
             </tbody>
         </table>
     </div>
