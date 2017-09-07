@@ -118,7 +118,7 @@
 
         function merkDelingstallUtenMandat() {
             let max;
-            $("#DelingstallTabell > tbody > tr > td").filter(".ikkeMandat").each(function (index) {
+            $("td.delingstall").filter(".ikkeMandat").each(function (index) {
                 if (max === undefined || parseFloat($(this).text()) > parseFloat(max.text())) {
                     max = $(this);
                 }
@@ -128,7 +128,7 @@
 
         function hentFraAPI() {
             $('#loading').show();
-            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api"+$("#FylkesVelger option:selected").val();
+            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api" + $("#FylkesVelger option:selected").val();
 
             fetch(apiUrl).then(r => r.json())
                 .then(data => oppdaterData(data))
@@ -170,6 +170,7 @@
 
             generer(stemmer);
         }
+
         function formaterStemmetall() {
             $("td.stemmetall").each(function (index) {
                 const val = $(this).text();
@@ -183,9 +184,12 @@
                 const text = $(this).text();
                 const number = text.split(' ')[0];
                 const mandatNr = text.split(' ')[1];
-                let formatted = new Intl.NumberFormat('no-NB', {maximumFractionDigits:2, minimumFractionDigits:2}).format(number);
-                if (mandatNr!== undefined) {
-                    formatted+=" "+ mandatNr;
+                let formatted = new Intl.NumberFormat('no-NB', {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2
+                }).format(number);
+                if (mandatNr !== undefined) {
+                    formatted += " " + mandatNr;
                 }
                 $(this).text(formatted);
             });
@@ -195,36 +199,40 @@
 </head>
 <body>
 <div id="loading"></div>
-<div id="main">
+<div id="main" class="container-fluid">
     <h1>Mandatberegning</h1>
-    <label for="FylkesVelger">Fylke</label>
-    <select id="FylkesVelger">
-        <option value="/2013/st/01">Østfold</option>
-        <option value="/2013/st/02">Akershus</option>
-        <option value="/2013/st/03">Oslo</option>
+    <div class="form-group w-25">
+        <select id="FylkesVelger" class="form-control">
+            <option value="/2013/st/01">Østfold</option>
+            <option value="/2013/st/02">Akershus</option>
+            <option value="/2013/st/03">Oslo</option>
 
-        <option value="/2013/st/04">Hedmark</option>
-        <option value="/2013/st/05">Oppland</option>
-        <option value="/2013/st/06">Buskerud</option>
-        <option value="/2013/st/07">Vestfold</option>
-        <option value="/2013/st/08">Telemark</option>
-        <option value="/2013/st/09">Aust-Agder</option>
-        <option value="/2013/st/10">Vest-Agder</option>
-        <option value="/2013/st/11">Rogaland</option>
-        <option value="/2013/st/12">Hordaland</option>
-        <option value="/2013/st/14">Sogn og Fjordane</option>
-        <option value="/2013/st/15">Møre og Romsdal</option>
-        <option value="/2013/st/16" selected>Sør-Trøndelag</option>
-        <option value="/2013/st/17">Nord-Trøndelag</option>
-        <option value="/2013/st/18">Nordland</option>
-        <option value="/2013/st/19">Troms Romsa</option>
-        <option value="/2013/st/20">Finnmark Finnmárku</option>
+            <option value="/2013/st/04">Hedmark</option>
+            <option value="/2013/st/05">Oppland</option>
+            <option value="/2013/st/06">Buskerud</option>
+            <option value="/2013/st/07">Vestfold</option>
+            <option value="/2013/st/08">Telemark</option>
+            <option value="/2013/st/09">Aust-Agder</option>
+            <option value="/2013/st/10">Vest-Agder</option>
+            <option value="/2013/st/11">Rogaland</option>
+            <option value="/2013/st/12">Hordaland</option>
+            <option value="/2013/st/14">Sogn og Fjordane</option>
+            <option value="/2013/st/15">Møre og Romsdal</option>
+            <option value="/2013/st/16" selected>Sør-Trøndelag</option>
+            <option value="/2013/st/17">Nord-Trøndelag</option>
+            <option value="/2013/st/18">Nordland</option>
+            <option value="/2013/st/19">Troms Romsa</option>
+            <option value="/2013/st/20">Finnmark Finnmárku</option>
 
-    </select>
-    <dl>
-        <dt>Antall mandater</dt>
-        <dd id="AntallRep"></dd>
+        </select>
+    </div>
+    <button id="Oppdater" type="button" class="btn btn-secondary">Oppdater stemmetall</button>
+    <div >
+    <dl class="row">
+        <dt class="col-2">Antall mandater:</dt>
+        <dd class="col-2" id="AntallRep"></dd>
     </dl>
+    </div>
     <div>
         <table id="Stemmetabell" class="table table-striped table-bordered">
             <thead class="thead-inverse">
@@ -238,7 +246,6 @@
         </table>
     </div>
     <div id="Mandatliste" class="table-responsive"></div>
-    <button id="Oppdater">Oppdater stemmetall</button>
 </div>
 </body>
 </html>
