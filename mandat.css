@@ -3,19 +3,16 @@ div#main {
     padding: 1em;
 }
 
-.row {
-
-}
-
 table#Stemmetabell, table#DelingstallTabell {
     width: auto !important;
 }
+
 td, th {
     font-family: 'Open Sans', sans-serif;;
     font-size: 1.2em;
 }
 
-td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat, th.DelingstallHeader, td.mandatliste, th.mandatliste, td.manglendeStemmer{
+td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat, th.DelingstallHeader, td.mandatliste, th.mandatliste, td.manglendeStemmer {
     text-align: right;
 }
 
@@ -40,6 +37,7 @@ td.maxUtenMandat {
 td.sisteMandat {
     color: red;
 }
+
 tr.manglendeStemmer {
     border: 2px solid black;
 }
@@ -54,6 +52,7 @@ th {
     height: 100%;
     background: url('loading_spinner.gif') no-repeat center center;
 }
+
 #FylkesVelger {
     width: auto !important;
 }

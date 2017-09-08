@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
@@ -166,8 +166,8 @@
                 if (parti.id.partikategori == 1) {
                     const stemmer = parti.stemmer.resultat.antall.total;
                     let mandater = parti.mandater.resultat.antall;
-                    if (parti.mandater.resultat.utjevningAntall===1) {
-                        mandater+='*';
+                    if (parti.mandater.resultat.utjevningAntall === 1) {
+                        mandater += '*';
                     }
                     /*if (parti.mandater.resultat.endring!==0) {
                         let endring = parti.mandater.resultat.endring;
@@ -219,22 +219,23 @@
 
             let flatDT = [];
 
-            for (var parti in delingsTall) {
-                console.log(parti, delingsTall[parti]);
+            for (let parti in delingsTall) {
                 Array.prototype.push.apply(flatDT, delingsTall[parti]);
             }
 
-            flatDT.sort(function(a, b){ return b - a; });
+            flatDT.sort(function (a, b) {
+                return b - a;
+            });
 
-            const max = flatDT[antallMandater-1];
+            const max = flatDT[antallMandater - 1];
 
 
-            let kolonneString = "<tr class='manglendeStemmer'><td class=\"mandat\">" +"stemmer til neste" + "</td>";
+            let kolonneString = "<tr class='manglendeStemmer'><td class=\"mandat\">" + "stemmer til neste" + "</td>";
             for (parti in delingsTall) {
 
                 let mandater = delingsTall[parti].filter(dt => dt > max);
                 const mandPrParti = mandater.length;
-                let manglendeStemmer = Math.ceil((max-delingsTall[parti][mandPrParti])*divisorer[mandPrParti]);
+                let manglendeStemmer = Math.ceil((max - delingsTall[parti][mandPrParti]) * divisorer[mandPrParti]);
 
                 kolonneString += "<td class='manglendeStemmer'>" + manglendeStemmer + "</td>";
             }
@@ -306,11 +307,11 @@
         </select>
     </div>
     <button id="Oppdater" type="button" class="btn btn-secondary">Oppdater stemmetall</button>
-    <div >
-    <dl class="row">
-        <dt class="col-2">Antall mandater:</dt>
-        <dd class="col-2" id="AntallRep"></dd>
-    </dl>
+    <div>
+        <dl class="row">
+            <dt class="col-2">Antall mandater:</dt>
+            <dd class="col-2" id="AntallRep"></dd>
+        </dl>
     </div>
     <div>
         <table id="Stemmetabell" class="table table-striped table-bordered">
