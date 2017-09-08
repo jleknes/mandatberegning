@@ -15,7 +15,7 @@ td, th {
     font-size: 1.2em;
 }
 
-td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat, th.DelingstallHeader{
+td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat, th.DelingstallHeader, td.mandatliste, th.mandatliste{
     text-align: right;
 }
 

@@ -164,10 +164,22 @@
             data.partier.forEach(function (parti) {
                 if (parti.id.partikategori == 1) {
                     const stemmer = parti.stemmer.resultat.antall.total;
+                    let mandater = parti.mandater.resultat.antall;
+                    if (parti.mandater.resultat.utjevningAntall===1) {
+                        mandater+='*';
+                    }
+                    /*if (parti.mandater.resultat.endring!==0) {
+                        let endring = parti.mandater.resultat.endring;
+                        if (endring>0) {
+                            endring = '+'+endring;
+                        }
+                        mandater+=' ('+endring+')';
+                    }*/
                     const partinavn = parti.id.navn;
                     const partirad = '<tr class="stemmetallRad">'
                         + '<td class="partinavn">' + partinavn + '</td>'
                         + '<td class="stemmetall">' + stemmer + '</td>'
+                        + '<td class="mandatliste">' + mandater + '</td>'
                         + '</tr>';
                     $("#Stemmetabell > tbody").append(partirad);
                 }
@@ -257,6 +269,7 @@
             <tr>
                 <th>Parti</th>
                 <th class="stemmetall">Stemmer</th>
+                <th class="mandatliste">Mandater</th>
             </tr>
             </thead>
             <tbody id="StemmetabellBody">
