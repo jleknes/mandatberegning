@@ -15,7 +15,7 @@ td, th {
     font-size: 1.2em;
 }
 
-td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat, th.DelingstallHeader, td.mandatliste, th.mandatliste{
+td.stemmetall, th.stemmetall, td.mandat, td.ikkeMandat, th.DelingstallHeader, td.mandatliste, th.mandatliste, td.manglendeStemmer{
     text-align: right;
 }
 
@@ -39,6 +39,9 @@ td.maxUtenMandat {
 
 td.sisteMandat {
     color: red;
+}
+tr.manglendeStemmer {
+    border: 2px solid black;
 }
 
 th {

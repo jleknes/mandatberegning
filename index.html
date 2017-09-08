@@ -153,6 +153,7 @@
 
         }
 
+
         function oppdaterData(data) {
             const mandater = (data.mandater.antall) - 1;
             $("#AntallRep").text(mandater);
@@ -185,8 +186,10 @@
                 }
             });
             genTabell();
+            manglendeStemmer();
             formaterDelingstall();
             formaterStemmetall();
+            formaterManglendeStemmer();
             $('#loading').hide();
             $('#main').show();
         }
@@ -199,6 +202,52 @@
             });
 
             generer(stemmer);
+        }
+
+        function manglendeStemmer() {
+
+            let stemmer = [];
+            $("#Stemmetabell").find(".stemmetallRad").each(function (index) {
+                const partinavn = $(this).find(".partinavn").text();
+                stemmer[partinavn] = $(this).find(".stemmetall").text();
+            });
+
+            const antallMandater = parseInt($("#AntallRep").text());
+
+            const divisorer = finnDivisorer(antallMandater);
+            const delingsTall = finnDelingstall(stemmer, divisorer);
+
+            let flatDT = [];
+
+            for (var parti in delingsTall) {
+                console.log(parti, delingsTall[parti]);
+                Array.prototype.push.apply(flatDT, delingsTall[parti]);
+            }
+
+            flatDT.sort(function(a, b){ return b - a; });
+
+            const max = flatDT[antallMandater-1];
+
+
+            let kolonneString = "<tr class='manglendeStemmer'><td class=\"mandat\">" +"stemmer til neste" + "</td>";
+            for (parti in delingsTall) {
+
+                let mandater = delingsTall[parti].filter(dt => dt > max);
+                const mandPrParti = mandater.length;
+                let manglendeStemmer = Math.ceil((max-delingsTall[parti][mandPrParti])*divisorer[mandPrParti]);
+
+                kolonneString += "<td class='manglendeStemmer'>" + manglendeStemmer + "</td>";
+            }
+            kolonneString += "</tr>";
+            $("#DelingstallTabell").append(kolonneString);
+        }
+
+        function formaterManglendeStemmer() {
+            $("td.manglendeStemmer").each(function (index) {
+                const val = $(this).text();
+                const formatted = new Intl.NumberFormat('no-NB').format(val);
+                $(this).text(formatted);
+            });
         }
 
         function formaterStemmetall() {
