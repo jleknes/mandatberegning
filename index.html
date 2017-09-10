@@ -175,7 +175,7 @@
                     const stemmer = parti.stemmer.resultat.antall.total;
                     const prosent = parti.stemmer.resultat.prosent;
                     let mandater = parti.mandater.resultat.antall;
-                    if (parti.mandater.resultat.utjevningAntall === 1) {
+                    if (parti.mandater.resultat.utjevningAntall === 1 && mandater!==169) {
                         mandater += '*';
                     }
                     /*if (parti.mandater.resultat.endring!==0) {
