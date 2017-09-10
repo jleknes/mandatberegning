@@ -75,7 +75,7 @@
 
         function generer(stemmer) {
             $("#Mandatliste").empty();
-            const antallMandater = parseInt($("#AntallRep").text());
+            const antallMandater = parseInt($("#AntallRep").text())-1;
 
             const divisorer = finnDivisorer(antallMandater);
             const delingstall = finnDelingstall(stemmer, divisorer);
@@ -155,9 +155,8 @@
 
 
         function oppdaterData(data) {
-            let mandater = (data.mandater.antall) - 1;
+            let mandater = (data.mandater.antall);
             if (mandater === 168) {
-                mandater++;
                 data.partier = data.partier.filter(function (n, i) {
                     return n.stemmer.resultat.prosent > 4.0;
                 });
