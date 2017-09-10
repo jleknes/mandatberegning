@@ -155,8 +155,16 @@
 
 
         function oppdaterData(data) {
-            const mandater = (data.mandater.antall) - 1;
+            let mandater = (data.mandater.antall) - 1;
+            if (mandater === 168) {
+                mandater++;
+                data.partier = data.partier.filter(function (n, i) {
+                    return n.stemmer.resultat.prosent > 4.0;
+                });
+            }
+
             $("#AntallRep").text(mandater);
+
             $("#StemmetabellBody").empty();
 
             data.partier.sort(function (a, b) {
@@ -165,6 +173,7 @@
             data.partier.forEach(function (parti) {
                 if (parti.id.partikategori == 1) {
                     const stemmer = parti.stemmer.resultat.antall.total;
+                    const prosent = parti.stemmer.resultat.prosent;
                     let mandater = parti.mandater.resultat.antall;
                     if (parti.mandater.resultat.utjevningAntall === 1) {
                         mandater += '*';
@@ -180,6 +189,7 @@
                     const partirad = '<tr class="stemmetallRad">'
                         + '<td class="partinavn">' + partinavn + '</td>'
                         + '<td class="stemmetall">' + stemmer + '</td>'
+                        + '<td class="prosent">' + prosent + '</td>'
                         + '<td class="mandatliste">' + mandater + '</td>'
                         + '</tr>';
                     $("#Stemmetabell > tbody").append(partirad);
@@ -189,6 +199,7 @@
             manglendeStemmer();
             formaterDelingstall();
             formaterStemmetall();
+            formaterProsent();
             formaterManglendeStemmer();
             $('#loading').hide();
             $('#main').show();
@@ -259,6 +270,18 @@
             });
         }
 
+        function formaterProsent() {
+            $("td.prosent").each(function (index) {
+                const val = $(this).text();
+                const formatted = new Intl.NumberFormat('no-NB', {
+                    maximumFractionDigits: 1,
+                    minimumFractionDigits: 1
+                }).format(val) +" %";
+                $(this).text(formatted);
+            });
+        }
+
+
         function formaterDelingstall() {
             $("td.delingstall").each(function (index) {
                 const text = $(this).text();
@@ -303,6 +326,7 @@
             <option value="/2013/st/18">Nordland</option>
             <option value="/2013/st/19">Troms Romsa</option>
             <option value="/2013/st/20">Finnmark Finnmárku</option>
+            <option value="/2013/st">Hele landet</option>
 
         </select>
     </div>
@@ -319,6 +343,7 @@
             <tr>
                 <th>Parti</th>
                 <th class="stemmetall">Stemmer</th>
+                <th class="prosent">Prosent</th>
                 <th class="mandatliste">Mandater</th>
             </tr>
             </thead>
