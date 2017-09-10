@@ -174,9 +174,12 @@
                 if (parti.id.partikategori == 1) {
                     const stemmer = parti.stemmer.resultat.antall.total;
                     const prosent = parti.stemmer.resultat.prosent;
-                    let mandater = parti.mandater.resultat.antall;
-                    if (parti.mandater.resultat.utjevningAntall === 1 && mandater!==169) {
-                        mandater += '*';
+                    let mandater = '';
+                    if (parti.mandater!==undefined) {
+                        mandater = parti.mandater.resultat.antall;
+                        if (parti.mandater.resultat.utjevningAntall === 1 && mandater !== 169) {
+                            mandater += '*';
+                        }
                     }
                     /*if (parti.mandater.resultat.endring!==0) {
                         let endring = parti.mandater.resultat.endring;
@@ -273,10 +276,13 @@
         function formaterProsent() {
             $("td.prosent").each(function (index) {
                 const val = $(this).text();
-                const formatted = new Intl.NumberFormat('no-NB', {
-                    maximumFractionDigits: 1,
-                    minimumFractionDigits: 1
-                }).format(val) +" %";
+                let formatted = "0.0 %";
+                if (val!='null') {
+                    formatted = new Intl.NumberFormat('no-NB', {
+                        maximumFractionDigits: 1,
+                        minimumFractionDigits: 1
+                    }).format(val) + " %";
+                }
                 $(this).text(formatted);
             });
         }
@@ -306,27 +312,27 @@
     <h1>Mandatberegning</h1>
     <div class="form-group w-25">
         <select id="FylkesVelger" class="form-control">
-            <option value="/2013/st/01">Østfold</option>
-            <option value="/2013/st/02">Akershus</option>
-            <option value="/2013/st/03">Oslo</option>
+            <option value="/2017/st/01">Østfold</option>
+            <option value="/2017/st/02">Akershus</option>
+            <option value="/2017/st/03">Oslo</option>
 
-            <option value="/2013/st/04">Hedmark</option>
-            <option value="/2013/st/05">Oppland</option>
-            <option value="/2013/st/06">Buskerud</option>
-            <option value="/2013/st/07">Vestfold</option>
-            <option value="/2013/st/08">Telemark</option>
-            <option value="/2013/st/09">Aust-Agder</option>
-            <option value="/2013/st/10">Vest-Agder</option>
-            <option value="/2013/st/11">Rogaland</option>
-            <option value="/2013/st/12">Hordaland</option>
-            <option value="/2013/st/14">Sogn og Fjordane</option>
-            <option value="/2013/st/15">Møre og Romsdal</option>
-            <option value="/2013/st/16" selected>Sør-Trøndelag</option>
-            <option value="/2013/st/17">Nord-Trøndelag</option>
-            <option value="/2013/st/18">Nordland</option>
-            <option value="/2013/st/19">Troms Romsa</option>
-            <option value="/2013/st/20">Finnmark Finnmárku</option>
-            <option value="/2013/st">Hele landet</option>
+            <option value="/2017/st/04">Hedmark</option>
+            <option value="/2017/st/05">Oppland</option>
+            <option value="/2017/st/06">Buskerud</option>
+            <option value="/2017/st/07">Vestfold</option>
+            <option value="/2017/st/08">Telemark</option>
+            <option value="/2017/st/09">Aust-Agder</option>
+            <option value="/2017/st/10">Vest-Agder</option>
+            <option value="/2017/st/11">Rogaland</option>
+            <option value="/2017/st/12">Hordaland</option>
+            <option value="/2017/st/14">Sogn og Fjordane</option>
+            <option value="/2017/st/15">Møre og Romsdal</option>
+            <option value="/2017/st/16" selected>Sør-Trøndelag</option>
+            <option value="/2017/st/17">Nord-Trøndelag</option>
+            <option value="/2017/st/18">Nordland</option>
+            <option value="/2017/st/19">Troms Romsa</option>
+            <option value="/2017/st/20">Finnmark Finnmárku</option>
+            <option value="/2017/st">Hele landet</option>
 
         </select>
     </div>
