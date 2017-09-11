@@ -225,7 +225,7 @@
                 stemmer[partinavn] = $(this).find(".stemmetall").text();
             });
 
-            const antallMandater = parseInt($("#AntallRep").text());
+            const antallMandater = (parseInt($("#AntallRep").text())-1);
 
             const divisorer = finnDivisorer(antallMandater);
             const delingsTall = finnDelingstall(stemmer, divisorer);
