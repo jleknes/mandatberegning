@@ -75,7 +75,7 @@
 
         function generer(stemmer) {
             $("#Mandatliste").empty();
-            const antallMandater = parseInt($("#AntallRep").text())-1;
+            const antallMandater = parseInt($("#AntallRep").text());
 
             const divisorer = finnDivisorer(antallMandater);
             const delingstall = finnDelingstall(stemmer, divisorer);
