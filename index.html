@@ -170,7 +170,7 @@
                 return b.stemmer.resultat.antall.total - a.stemmer.resultat.antall.total;
             });
             data.partier.forEach(function (parti) {
-                if (parti.id.partikategori == 1) {
+                if (parti.id.partikategori == 1 || parti.id.partikategori == 2) {
                     const stemmer = parti.stemmer.resultat.antall.total;
                     const prosent = parti.stemmer.resultat.prosent;
                     let mandater = '';
