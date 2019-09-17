@@ -1,4 +1,4 @@
 # Mandatberegning
-Beregning av mandater etter st. lagues metode
+Beregning av mandater etter st. lagues metode. Applikasjonen bruker API-ene til valg.no. https://valgresultat.no/api/
 
-Every push to master is automatically deployed to Google App Engine.
+Push til master deployes til Google App Engine.
