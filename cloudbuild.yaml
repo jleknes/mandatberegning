@@ -3,4 +3,3 @@ steps:
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/mandatberegning', './nginx']
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
-  timeout: "1600s"
