@@ -2,13 +2,13 @@
   "name": "mandatberegning",
   "version": "1.0.0",
   "description": "Mandatberegning for valg",
-  "main": "index.js",
+  "main": "www/index.js",
   "dependencies": {
     "node-static": "^0.7.9"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js"
+    "start": "node www/index.js"
   },
   "repository": {
     "type": "git",
