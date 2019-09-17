@@ -45,7 +45,7 @@
             $("#Oppdater").click(function () {
                 hentFraAPI();
             });
-            $("#FylkesVelger").change(function () {
+            $("#DistriktsVelger").change(function () {
                 hentFraAPI();
             });
             hentFraAPI();
@@ -65,7 +65,6 @@
             for (parti in stemmer) {
                 let kvotienter = [];
                 for (let i = 0; i < divisorer.length; i++) {
-                    const dTall = stemmer[parti] / divisorer[i];
                     kvotienter.push(stemmer[parti] / divisorer[i]);
                 }
                 delingstall[parti] = kvotienter;
@@ -131,22 +130,11 @@
             }
             tabellString += "</tbody></table>";
             $("#Mandatliste").append(tabellString);
-            //merkDelingstallUtenMandat();
-        }
-
-        function merkDelingstallUtenMandat() {
-            let max;
-            $("td.delingstall").filter(".ikkeMandat").each(function (index) {
-                if (max === undefined || parseFloat($(this).text()) > parseFloat(max.text())) {
-                    max = $(this);
-                }
-            });
-            max.addClass("maxUtenMandat");
         }
 
         function hentFraAPI() {
             $('#loading').show();
-            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api" + $("#FylkesVelger option:selected").val();
+            const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api" + $("#DistriktsVelger option:selected").val();
 
             fetch(apiUrl).then(r => r.json())
                 .then(data => oppdaterData(data))
@@ -180,13 +168,6 @@
                             mandater += '*';
                         }
                     }
-                    /*if (parti.mandater.resultat.endring!==0) {
-                        let endring = parti.mandater.resultat.endring;
-                        if (endring>0) {
-                            endring = '+'+endring;
-                        }
-                        mandater+=' ('+endring+')';
-                    }*/
                     const partinavn = parti.id.navn;
                     const partirad = '<tr class="stemmetallRad">'
                         + '<td class="partinavn">' + partinavn + '</td>'
@@ -310,7 +291,7 @@
 <div id="main" class="container-fluid">
     <h1>Mandatberegning</h1>
     <div class="form-group w-25">
-        <select id="FylkesVelger" class="form-control">
+        <select id="DistriktsVelger" class="form-control">
             <option value="/2019/ko/50/5001">Trondheim</option>
             <option value="/2019/fy/50">Fylkesvalg Trøndelag</option>
         </select>
