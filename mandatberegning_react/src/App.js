@@ -1,6 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ValgVelger from "./components/ValgVelger/ValgVelger";
+
+const apiUrl = "https://cors-anywhere.herokuapp.com/https://valgresultat.no/api";
 
 function App() {
   return (
@@ -19,6 +22,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <ValgVelger/>
     </div>
   );
 }
