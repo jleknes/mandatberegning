@@ -4,3 +4,4 @@ Dette er et verktøy for å dynamisk følge med på et lokal- eller stortingsval
 # Deployment
 Google Cloud Build bygger et Docker image basert på `Dockerfile` med nginx som web server. 
 Push til master deployes til Google App Engine.
+Kjører på https://my-project-1498658380038.appspot.com/.
